@@ -34,29 +34,24 @@ public class AiPlayer extends Player {
     } */
 
     public void findBestMove() {
-        int bestValue = Integer.MIN_VALUE;
+        int bestValue = Integer.MIN_VALUE; // best score ekata danata podima agaya dagannava
         int bestRow = -1;
         int bestCol = -1;
         Piece[][] pieces = board.getBoard();
-        Random rand = new Random();
 
         for (int i = 0; i < pieces.length; i++) {
             for (int j = 0; j < pieces[i].length; j++) {
                 if (pieces[i][j] == Piece.EMPTY) {
-                    pieces[i][j] = Piece.O;
-                    int moveValue = minimax(pieces, 0, false); // Move using minimax
+                    pieces[i][j] = Piece.O; // piece eke his thanak balala ekata O dagannava
+                    int moveValue = minimax(pieces, 0, false); // minimax eka call karala score ekak illaganava
 
-                    // Add randomness to AI's decision to make it more human-like
-                    if (rand.nextInt(10) < 2) { // 20% chance to pick this move
-                        moveValue -= 5; // Decrease the move value
-                    }
-                    pieces[i][j] = Piece.EMPTY;
+                    pieces[i][j] = Piece.EMPTY; // dapu piece eka ain karanava
 
-                    // If the move value is better than the best value, update bestRow and bestCol
+                    // best score ekata adala best move eke row ekai col ekata dagannava
                     if (moveValue > bestValue) {
                         bestRow = i;
                         bestCol = j;
-                        bestValue = moveValue;
+                        bestValue = moveValue; // gatta score eka danata thiyene ekata wada wadi nan eka best score ekata dagannava
                     }
                 }
             }
@@ -73,9 +68,9 @@ public class AiPlayer extends Player {
         Winner winner = board.checkWinner(); // Check if there's a winner
         if (winner != null) {
             if (winner.getWinningPiece() == Piece.O) { // AI wins
-                return 10 - depth; // Return score based on depth
+                return 10 - depth; // ai eka depth base unu score ek return krl puluwan tharam ikmanata dinanna balanava
             } else if (winner.getWinningPiece() == Piece.X) { // Human wins
-                return depth - 10; // Return score based on depth
+                return depth - 10; // ai eka depth base unu score ek return krl puluwan tharam pahuwela paradenna balanava
             }
         }
 
@@ -83,30 +78,30 @@ public class AiPlayer extends Player {
             return 0; // Return score for draw
         }
 
-        if (isMaximizing) { // If it's the AI's turn
-            int bestValue = Integer.MIN_VALUE;
+        if (isMaximizing) { // ai eke dinana chance eka maximize karanava
+            int bestValue = Integer.MIN_VALUE; // hodama score ekata danata aduma value eka danava
             for (int i = 0; i < pieces.length; i++) {
                 for (int j = 0; j < pieces[i].length; j++) {
                     if (pieces[i][j] == Piece.EMPTY) {
-                        pieces[i][j] = Piece.O;
-                        bestValue = Math.max(bestValue, minimax(pieces, depth + 1, false)); // Evaluate the move
-                        pieces[i][j] = Piece.EMPTY;
+                        pieces[i][j] = Piece.O; // board eke piece eka empty nan ekata danata O danava
+                        bestValue = Math.max(bestValue, minimax(pieces, depth + 1, false));  // minimax eka call karala depth ekak wadi karala eelaga recursion eke humange dinana chance eka minimize karanava
+                        pieces[i][j] = Piece.EMPTY; // board eke daapu piece eka ain karanava
                     }
                 }
             }
-            return bestValue; // Return the best value for the AI
-        } else { // If it's the human's turn
-            int bestValue = Integer.MAX_VALUE;
+            return bestValue; // ai ekt hodama score eka return karanava
+        } else { // dan karanne human ge dinana chance eka adu karana eka
+            int bestValue = Integer.MAX_VALUE; // adu karaddi aduma score eka daganna one hinda danata wadima score eka danava
             for (int i = 0; i < pieces.length; i++) {
                 for (int j = 0; j < pieces[i].length; j++) {
                     if (pieces[i][j] == Piece.EMPTY) {
-                        pieces[i][j] = Piece.X;
-                        bestValue = Math.min(bestValue, minimax(pieces, depth + 1, true)); // Evaluate the move
-                        pieces[i][j] = Piece.EMPTY;
+                        pieces[i][j] = Piece.X; // kalin wage piece eka empty nan X dagannava
+                        bestValue = Math.min(bestValue, minimax(pieces, depth + 1, true)); // minimax ekata call karala ai depth eka ekakin wadi karala eelaga recursion eke ai ge dinana chance eka maximize karanava
+                        pieces[i][j] = Piece.EMPTY; // ai dagatta piece eka ain karanava
                     }
                 }
             }
-            return bestValue; // Return the best value for the human
+            return bestValue; // dagatta score eka return karanava
         }
     }
 
