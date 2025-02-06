@@ -164,9 +164,9 @@ public class BoardController implements BoardUI {
             lblWinner.setText("You (X) wins");
             lblWinner.setDisable(false);
         } else if (winner == Piece.O) {
-            System.out.println(RED + "AI (X) wins" + RESET);
+            System.out.println(RED + "AI (O) wins" + RESET);
             disableGame();
-            lblWinner.setText("AI (X) wins");
+            lblWinner.setText("AI (O) wins");
             lblWinner.setDisable(false);
         }
     }
